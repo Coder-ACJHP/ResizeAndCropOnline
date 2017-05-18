@@ -1,0 +1,16 @@
+.mytable {
+	width: 800px;
+	height: 250px;
+	background-color: #f2f2f2;
+	border-radius: 10px;
+}
+
+.myTh {
+	border-radius: 10px;
+	border: 1px solid black;
+}
+
+.myTd {
+	border-radius: 10px;
+	border: 1px solid black;
+}
