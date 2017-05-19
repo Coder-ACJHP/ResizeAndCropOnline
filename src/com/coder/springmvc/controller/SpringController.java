@@ -1,6 +1,5 @@
 package com.coder.springmvc.controller;
 
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -45,7 +44,7 @@ public class SpringController {
 	
 	@GetMapping("/selectFile")
 	public String welcomeToHome(Model model) {
-		
+		userDocumentService.deleteUserDoc();
 		model.addAttribute("userDoc", new UserDocument());
 		return "home-page";
 	}
@@ -65,13 +64,9 @@ public class SpringController {
 			usrDoc.setContent(fileUpload.getBytes());
 			usrDoc.setType(fileUpload.getContentType());
 			
-			String fileName = fileUpload.getOriginalFilename();
+			String fileName = fileUpload.getOriginalFilename().substring(0, fileUpload.getOriginalFilename().length()-4);
 			String fileDescription = fileName.toLowerCase().substring(fileName.length() -4, fileName.length());
 			usrDoc.setDescription(fileDescription);
-			
-			System.out.println("FILE NAME : " + fileName);
-			System.out.println("FILE DESCRIPTION : " + fileDescription);
-			System.out.println("FILE TYPE : " + fileUpload.getContentType());
 			
 			//Save it in database
 			userDocumentService.save(usrDoc);
@@ -91,37 +86,84 @@ public class SpringController {
 	@PostMapping("/serveIt")
 	public String serveCroppedImage(@RequestParam("x") int x, 
 			@RequestParam("y") int y, @RequestParam("w") int w, 
-			@RequestParam("h") int h, Model model, HttpServletResponse response) throws IOException {
+			@RequestParam("h") int h, Model model) throws IOException {
 		
-		System.out.println(x+" "+y+" "+w+" "+" "+h);
-//		final String fileName = "CroppedImage";
-		
-		UserDocument usrDoc = userDocumentService.getDocumentById(1);
+		UserDocument usrDoc = userDocumentService.getLastDocument();
 		if(usrDoc != null) {
 			
-			InputStream inputStream = new ByteArrayInputStream(usrDoc.getContent());
-			BufferedImage createImage = ImageIO.read(inputStream);
-			Graphics g = createImage.getGraphics();
-			g.drawImage(createImage, x, y, w, h, null);
-			
-//			response.setContentType("application/force-download");
-//	        response.setHeader("Content-Disposition", "attachment; filename="+fileName+usrDoc.getDescription());
+			BufferedImage createImage = ImageIO.read(new ByteArrayInputStream(usrDoc.getContent()));
+			BufferedImage croppedImage = createImage.getSubimage(x, y, w, h);
 	        
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
-			ImageIO.write(createImage, "jpg", os);
+			ImageIO.write(croppedImage, "png", os);
+			os.flush();
 			usrDoc.setContent(os.toByteArray());
+			os.close();
 			userDocumentService.save(usrDoc);
 			
-//			IOUtils.copy(inputStream, response.getOutputStream());
-//			response.flushBuffer();
-//			inputStream.close();
+			//This used for showing cropped image in service page.
+			byte[] encodeBase64 = Base64.encodeBase64(usrDoc.getContent());
+			String base64Encoded = new String(encodeBase64, "UTF-8");
+			model.addAttribute("picture", base64Encoded);
 		}
 		
 		return "service-page";
-		
 	}
 	
 	
+	@GetMapping("/saveAsPng")
+	public void saveAsPng(RedirectAttributes redirectAttributes,HttpServletResponse response) {
+				
+		UserDocument userDocument = userDocumentService.getLastDocument();
+		if(userDocument != null) {	
+			
+			try {
+				
+				response.setContentType("application/octet-stream");
+				response.setHeader("Content-Disposition", String.format("inline; filename=\""+userDocument.getName()+".png"+"\""));
+				response.setContentLength(userDocument.getContent().length);
+				BufferedImage createImage = ImageIO.read(new ByteArrayInputStream(userDocument.getContent()));
+				ByteArrayOutputStream os = new ByteArrayOutputStream();
+				ImageIO.write(createImage, "png", os);
+				os.flush();
+				InputStream is = new ByteArrayInputStream(os.toByteArray());
+				IOUtils.copy(is, response.getOutputStream());
+				os.close();
+				
+			} catch (IOException e) {
+				redirectAttributes.addFlashAttribute("error", e.getMessage());
+				return;
+			}
+			
+		}
+	}
+
+	@GetMapping("/saveAsJpg")
+	public void saveAsJpg(RedirectAttributes redirectAttributes,HttpServletResponse response) {
+		
+		UserDocument userDocument = userDocumentService.getLastDocument();
+		if(userDocument != null) {	
+			
+			try {
+				
+				response.setContentType("application/octet-stream");
+				response.setHeader("Content-Disposition", String.format("inline; filename=\""+userDocument.getName()+".jpg"+"\""));
+				response.setContentLength(userDocument.getContent().length);
+				BufferedImage createImage = ImageIO.read(new ByteArrayInputStream(userDocument.getContent()));
+				ByteArrayOutputStream os = new ByteArrayOutputStream();
+				ImageIO.write(createImage, "jpg", os);
+				os.flush();
+				InputStream is = new ByteArrayInputStream(os.toByteArray());
+				IOUtils.copy(is, response.getOutputStream());
+				os.close();
+				
+			} catch (IOException e) {
+				redirectAttributes.addFlashAttribute("error", e.getMessage());
+				return;
+			}
+			
+		}
+	}
 	
 }
 

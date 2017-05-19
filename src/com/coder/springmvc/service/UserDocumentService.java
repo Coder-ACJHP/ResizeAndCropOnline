@@ -6,6 +6,8 @@ public interface UserDocumentService {
 
 	public void save(UserDocument userDocument);
 
-	public UserDocument getDocumentById(int i);
+	public UserDocument getLastDocument();
+
+	public void deleteUserDoc();
 	
 }

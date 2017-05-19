@@ -23,8 +23,15 @@ public class UserDocumentServiceImpl implements UserDocumentService {
 
 	@Override
 	@Transactional
-	public UserDocument getDocumentById(int i) {
-		return userDocumentDao.getDocumentbyId(i);
+	public UserDocument getLastDocument() {
+		return userDocumentDao.getLastDocument();
+		
+	}
+
+	@Override
+	@Transactional
+	public void deleteUserDoc() {
+		userDocumentDao.deleteUserDoc();
 		
 	}
 

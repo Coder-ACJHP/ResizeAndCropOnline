@@ -15,8 +15,10 @@
     <title>Online image cropper</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/scripts.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
 
   </head>
 
@@ -117,7 +119,7 @@
 		                        <span class="glyphicon glyphicon-search"></span> Browse&hellip; <input name="fileUploaded" type="file" style="display: none;" >
 		                    </span>
 		                </label>
-		                <form:input path="name" type="text" class="form-control"/>
+		                <input name="name" type="text" class="form-control" readonly/>
 		            </div>
 				</div>
 		   </div><br>
@@ -141,14 +143,6 @@
 		</div>	
 	</div>
 </div>
-	<script>
-		$(document).ready(function(){
-		    $('[data-toggle="tooltip"]').tooltip();   
-		});
-	</script>
-	<script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/scripts.js"></script>
-  </body>
+</body>
 </html>
                     

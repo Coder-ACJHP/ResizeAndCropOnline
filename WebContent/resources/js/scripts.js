@@ -25,3 +25,7 @@ $(function() {
   });
   
 });// Empty JS for your own code to be here
+
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+});

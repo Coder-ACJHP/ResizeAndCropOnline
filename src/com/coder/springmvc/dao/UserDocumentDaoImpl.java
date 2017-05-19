@@ -22,10 +22,9 @@ public class UserDocumentDaoImpl implements UserDocumentDao {
 	}
 
 	@Override
-	public void delete(int Id) {
+	public void deleteUserDoc() {
 		Session currentSession = sessionFactory.getCurrentSession();
-		Query<UserDocument> query = currentSession.createQuery("delete from UserDocument where id=:theId",UserDocument.class);
-		query.setParameter("theId", Id);
+		Query<?> query = currentSession.createQuery("delete from UserDocument");
 		query.executeUpdate();
 	}
 
@@ -42,10 +41,11 @@ public class UserDocumentDaoImpl implements UserDocumentDao {
 	}
 
 	@Override
-	public UserDocument getDocumentbyId(int i) {
+	public UserDocument getLastDocument() {
 		Session currentSession = sessionFactory.getCurrentSession();
-		UserDocument usrDoc = currentSession.get(UserDocument.class, i);
-		return usrDoc;
+		UserDocument userDocument = (UserDocument) currentSession.
+					createQuery("from UserDocument ORDER BY id DESC").setMaxResults(1).getSingleResult();
+		return userDocument;
 	}
 
 }
