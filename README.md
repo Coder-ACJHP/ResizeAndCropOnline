@@ -1,6 +1,5 @@
 # Resize and crop images online
 <img src="http://deepliquid.com/img/banner/jcrop.png">
-<br/>
 Simple image cropping , resizing, type converting web application with Java EE and JS
 
 <h3> Used tecnologies :</h3> 
