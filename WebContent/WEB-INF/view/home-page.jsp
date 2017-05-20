@@ -14,11 +14,11 @@
 
     <title>Online image cropper</title>
 
-    <!-- Bootstrap core CSS -->
+  <!-- Bootstrap core and CSS -->
   <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
   <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/scripts.js"></script>
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
 
   </head>
 
@@ -44,13 +44,12 @@
 					 <a href="#" data-toggle="dropdown" class="dropdown-toggle">Dropdown<strong class="caret"></strong></a>
 					<ul class="dropdown-menu">
 						<li>
-							<a href="#">Source code</a>
+							<a href="https://github.com/Coder-ACJHP/ResizeAndCropOnline">Source code</a>
 						</li>
 						<li class="divider">
 						<li>
-							<a href="#">About developer</a>
+							<a href="http://www.kariyer.net/ozgecmis/onur-isik?o=c15o">About developer</a>
 						</li>
-						<li class="divider">
 					</ul>
 				</li>
 			</ul>
@@ -109,6 +108,11 @@
 				</h1>
 			</div> 
 		</div>
+		<c:if test="${not empty error}">
+			<div class="alert alert-danger">
+  				<strong>Warning!</strong> ${error}.
+			</div>
+		</c:if>
 		<form:form action="cropImage" modelAttribute="userDoc" method="POST" enctype="multipart/form-data">
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2">
@@ -137,7 +141,12 @@
 	   <div class="row">
 	   	<div class="col-md-10 col-md-offset-1">
 			<p>
-				Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>. Aliquam eget sapien sapien. Curabitur in metus urna. In hac habitasse platea dictumst. Phasellus eu sem sapien, sed vestibulum velit. Nam purus nibh, lacinia non faucibus et, pharetra in dolor. Sed iaculis posuere diam ut cursus. <em>Morbi commodo sodales nisi id sodales. Proin consectetur, nisi id commodo imperdiet, metus nunc consequat lectus, id bibendum diam velit et dui.</em> Proin massa magna, vulputate nec bibendum nec, posuere nec lacus. <small>Aliquam mi erat, aliquam vel luctus eu, pharetra quis elit. Nulla euismod ultrices massa, et feugiat ipsum consequat eu.</small>
+				Double-click any photo or select it and click the &quot;Crop&quot; button and we&quot;ll draw a box around the 
+				portion that will be cropped. Resize or scale your photo and the cropped area by pulling the anchors 
+				on the corners, then click the checkmark once you&quot;re done. Our image cropper is one smart cookie: 
+				it will automatically snap in line with other design elements to give your design perfect alignment. 
+				You won&quot;t even have to worry about losing data — if you ever want to crop your photo again you&quot;ll see 
+				the whole original photo, just like the first time.			
 			</p>
 		 </div>	
 		</div>	
