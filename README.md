@@ -2,6 +2,9 @@
 <img src="http://deepliquid.com/img/banner/jcrop.png">
 Simple image cropping , resizing, type converting web application with Java EE and JS
 
+<h3>Screenshots : </h3>
+
+
 <h3> Used tecnologies :</h3> 
 <a href="http://www.oracle.com/technetwork/java/javaee/overview/index.html">Java EE</a>, <a href="https://spring.io/">Spring MVC framework</a>, <a href="https://www.javascript.com/">Javascript (<a href="http://deepliquid.com/content/Jcrop.html">JCrop plugin</a>)</a>,  <a href="https://maven.apache.org/">Maven</a> and <a href="https://www.mysql.com/">MySQL database</a>.
 
