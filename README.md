@@ -13,6 +13,6 @@ For any issue or idea please email me at <a href="mailto:hexa.octabin@gmail.com"
 
 <h3>Screenshots : </h3>
 <div>
-<img src="https://github.com/Coder-ACJHP/ResizeAndCropOnline/blob/master/WebContent/resources/images/Ekran%20Resmi%202017-05-22%2000.49.56.png" width="270px" heigth="270px"> <img src="https://github.com/Coder-ACJHP/ResizeAndCropOnline/blob/master/WebContent/resources/images/Ekran%20Resmi%202017-05-22%2000.50.56.png" width="270px" heigth="270px">  <img src="https://github.com/Coder-ACJHP/ResizeAndCropOnline/blob/master/WebContent/resources/images/Ekran%20Resmi%202017-05-22%2000.49.51.png" width="270px" heigth="270px">
+<img src="https://github.com/Coder-ACJHP/ResizeAndCropOnline/blob/master/WebContent/resources/images/Ekran%20Resmi%202017-05-22%2000.49.56.png" width="280px" heigth="280px"> <img src="https://github.com/Coder-ACJHP/ResizeAndCropOnline/blob/master/WebContent/resources/images/Ekran%20Resmi%202017-05-22%2000.50.56.png" width="280px" heigth="280px">  <img src="https://github.com/Coder-ACJHP/ResizeAndCropOnline/blob/master/WebContent/resources/images/Ekran%20Resmi%202017-05-22%2000.49.51.png" width="280px" heigth="280px">
 </div>
 <label><b>Thank you for reading I hope this help you :)</b></label>
