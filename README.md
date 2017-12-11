@@ -7,7 +7,7 @@ Simple image cropping , resizing, type converting web application with Java EE a
 
 <h3> Develop and Deploying : </h3>
 I'm used <a href="https://tomcat.apache.org/download-80.cgi">Embeded Tomcat 8.5</a> for depoying and <a href="http://www.eclipse.org/downloads/packages/eclipse-ide-java-ee-developers/neon3">Eclipse Neon.1 </a> for development environment.<br>
-<b><i>*Remember you have to edit connection properties file before running the application!</i></b>
+<b style="color:red"><i>*Remember you have to edit connection properties file before running the application!</i></b>
 
 <h3> Contact : </h3>
 For any issue or idea please email me at <a href="mailto:hexa.octabin@gmail.com">hexa.octabin@gmail.com</a>
