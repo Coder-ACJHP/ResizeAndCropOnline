@@ -164,7 +164,7 @@ public class SpringController {
 		}
 	}
 	
-	private final String cookDownloadableImage(
+	private final void cookDownloadableImage(
 			HttpServletResponse response, String FILE_NAME, String IMAGE_TYPE, 
 			int contentLength, byte[] content, RedirectAttributes redirectAttributes){
 		
@@ -175,9 +175,8 @@ public class SpringController {
 			response.setContentLength(contentLength);
 			
 			final BufferedImage createImage = ImageIO.read(new ByteArrayInputStream(content));
-			final BufferedImage typeChangedImage = new BufferedImage(createImage.getWidth(), createImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
 			final ByteArrayOutputStream os = new ByteArrayOutputStream();
-			ImageIO.write(typeChangedImage, IMAGE_TYPE, os);
+			ImageIO.write(createImage, IMAGE_TYPE, os);
 			os.flush();
 			InputStream is = new ByteArrayInputStream(os.toByteArray());
 			IOUtils.copy(is, response.getOutputStream());
@@ -185,9 +184,7 @@ public class SpringController {
 			
 		} catch (IOException e) {
 			redirectAttributes.addFlashAttribute("error", e.getLocalizedMessage());
-			return "error-page";
 		}
-		return "";
 	}
 	
 	private void saveToDatabaseAndServe(BufferedImage image,  UserDocument usrDoc, Model model) {
