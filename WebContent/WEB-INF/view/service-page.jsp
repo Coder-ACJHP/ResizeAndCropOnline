@@ -20,16 +20,35 @@
 		window.print();
 	}
 </script>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<link type="text/css" rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/tableStyle.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/tableStyle.css">
 </head>
 <body>
+
+	<!-- HANDLE ERRORS AND SHOW ON SMALL MODAL -->
+	<c:if test="${not empty error}">
+		<script type="text/javascript">
+		    $(document).ready(function(){
+		        $("#myModal").modal('show');
+		    });
+		</script>
+		<div id="myModal" class="modal fade">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                <h3 class="modal-title">Error !</h3>
+		            </div>
+		            <div class="modal-body">
+		                <label style="color:red; font-size: 18px;">${error}!</label>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	</c:if>
+	
 	<!-- Some white spaces -->
 	<div class="row">
 		<div style="width: 100%; height: 30px;"></div>
@@ -40,10 +59,9 @@
 			<div class="col-md-12">
 				<ul class="nav nav-tabs">
 					<li class="active"><a href="selectFile">Home</a></li>
-					<li><a href="#">Extras</a></li>
-					<li><a href="#">About</a></li>
+
 					<li class="dropdown pull-right"><a href="#"
-						data-toggle="dropdown" class="dropdown-toggle">Dropdown<strong
+						data-toggle="dropdown" class="dropdown-toggle">Extras List<strong
 							class="caret"></strong></a>
 						<ul class="dropdown-menu">
 							<li><a
@@ -59,13 +77,7 @@
 					<div class="col-md-8 col-md-offset-2">
 						<div align="center">
 							<h3>Your image was successfully resized!</h3>
-							<br /> <span>Choose one of these options to complete your
-								job.</span>
-							<c:if test="${not empty error}">
-								<div class="alert alert-danger">
-									<strong>Warning!</strong> ${error}
-								</div>
-							</c:if>
+							<br /> <span>Choose one of these options to complete your job.</span>
 						</div>
 						<!-- Some white spaces -->
 						<div class="row">

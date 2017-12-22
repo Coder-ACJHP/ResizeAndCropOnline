@@ -34,6 +34,8 @@ public class SpringController {
 	@Autowired
 	UserDocumentService userDocumentService;
 	
+	private String flexFileDescription = "";
+	
 	@GetMapping("/selectFile")
 	public String welcomeToHome(Model model) {
 		userDocumentService.deleteUserDoc();
@@ -63,7 +65,9 @@ public class SpringController {
 			usrDoc.setName(fileName);
 			usrDoc.setDescription(fileDescription);
 			userDocumentService.save(usrDoc);
-						
+			
+			flexFileDescription = fileDescription;
+			
 			//Show the picture in the page
 			byte[] encodeBase64 = Base64.encodeBase64(fileUpload.getBytes());
 			String base64Encoded = new String(encodeBase64);
@@ -80,13 +84,13 @@ public class SpringController {
 	public String serveCroppedImage(@RequestParam("x") int x, 
 			@RequestParam("y") int y, @RequestParam("w") int w, 
 			@RequestParam("h") int h, Model model) throws IOException {
-		
-		UserDocument usrDoc = userDocumentService.getLastDocument();
+				
+		final UserDocument usrDoc = userDocumentService.getLastDocument();
 		if(usrDoc != null) {
-			
-			BufferedImage createImage = ImageIO.read(new ByteArrayInputStream(usrDoc.getContent()));
-			BufferedImage croppedImage = createImage.getSubimage(x, y, w, h);
-	        
+
+			final BufferedImage createImage = ImageIO.read(new ByteArrayInputStream(usrDoc.getContent()));
+			final BufferedImage croppedImage = createImage.getSubimage(x, y, w, h);
+
 			saveToDatabaseAndServe(croppedImage, usrDoc, model);
 
 		}
@@ -160,47 +164,58 @@ public class SpringController {
 		}
 	}
 	
-	private final static void cookDownloadableImage(
+	private final String cookDownloadableImage(
 			HttpServletResponse response, String FILE_NAME, String IMAGE_TYPE, 
 			int contentLength, byte[] content, RedirectAttributes redirectAttributes){
 		
 		try {
 			
 			response.setContentType("application/octet-stream");
-			response.setHeader("Content-Disposition", String.
-					format("inline; filename=\""+FILE_NAME+"."+IMAGE_TYPE+"\""));
+			response.setHeader("Content-Disposition", String.format("inline; filename=\""+FILE_NAME+"."+IMAGE_TYPE+"\""));
 			response.setContentLength(contentLength);
 			
-			BufferedImage createImage = ImageIO.read(new ByteArrayInputStream(content));
-			ByteArrayOutputStream os = new ByteArrayOutputStream();
-			ImageIO.write(createImage, IMAGE_TYPE, os);
+			final BufferedImage createImage = ImageIO.read(new ByteArrayInputStream(content));
+			final BufferedImage typeChangedImage = new BufferedImage(createImage.getWidth(), createImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
+			final ByteArrayOutputStream os = new ByteArrayOutputStream();
+			ImageIO.write(typeChangedImage, IMAGE_TYPE, os);
 			os.flush();
 			InputStream is = new ByteArrayInputStream(os.toByteArray());
 			IOUtils.copy(is, response.getOutputStream());
 			os.close();
 			
 		} catch (IOException e) {
-			redirectAttributes.addFlashAttribute("error", e.getMessage());
-			return;
+			redirectAttributes.addFlashAttribute("error", e.getLocalizedMessage());
+			return "error-page";
 		}
-		
+		return "";
 	}
 	
-	private void saveToDatabaseAndServe(BufferedImage image, 
-				UserDocument usrDoc, Model model) throws IOException {
+	private void saveToDatabaseAndServe(BufferedImage image,  UserDocument usrDoc, Model model) {
 		
-		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		ImageIO.write(image, "png", os);
-		os.flush();
-		usrDoc.setContent(os.toByteArray());
-		os.close();
-		userDocumentService.save(usrDoc);
-		
-		//This used for showing cropped image in service page.
-		byte[] encodeBase64 = Base64.encodeBase64(usrDoc.getContent());
-		String base64Encoded = new String(encodeBase64, "UTF-8");
-		model.addAttribute("picture", base64Encoded);
-		
+		try {
+			
+			final ByteArrayOutputStream os = new ByteArrayOutputStream();
+			ImageIO.write(image, subStringDescription(), os);
+			os.flush();
+			usrDoc.setContent(os.toByteArray());
+			os.close();
+			userDocumentService.save(usrDoc);
+			
+			//This used for showing cropped image in service page.
+			final byte[] encodeBase64 = Base64.encodeBase64(usrDoc.getContent());
+			final String base64Encoded = new String(encodeBase64, "UTF-8");
+			model.addAttribute("picture", base64Encoded);
+			
+		} catch (IOException e) {
+			model.addAttribute("error", e.getLocalizedMessage());
+		}
+	}
+	
+	private String subStringDescription() {
+		if(!flexFileDescription.isEmpty() || flexFileDescription.trim().length() > 0) {
+			return flexFileDescription.substring(1, flexFileDescription.length());
+		}
+		return null;
 	}
 }
 

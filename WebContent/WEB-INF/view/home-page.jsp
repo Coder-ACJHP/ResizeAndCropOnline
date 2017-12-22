@@ -8,7 +8,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="Image cropper">
     <meta name="author" content="Coder ACJHP">
 
@@ -22,8 +21,31 @@
 
   </head>
 
-  <body>
-    <!-- Some white spaces -->
+<body>
+	<div class="container">
+				<!-- HANDLE ERRORS AND SHOW ON SMALL MODAL -->
+	<c:if test="${not empty error}">
+		<script type="text/javascript">
+		    $(document).ready(function(){
+		        $("#myModal").modal('show');
+		    });
+		</script>
+		<div id="myModal" class="modal fade">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                <h3 class="modal-title">Error !</h3>
+		            </div>
+		            <div class="modal-body">
+		                <label style="color:red; font-size: 18px;">${error}!</label>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	</c:if>
+
+	<!-- Some white spaces -->
 	<div class="row">
 	   	<div style="width: 100%; height: 30px;"></div>
 	 </div>
@@ -34,14 +56,8 @@
 				<li class="active">
 					<a href="selectFile">Home</a>
 				</li>
-				<li>
-					<a href="#">Extras</a>
-				</li>
-				<li>
-					<a href="#">About</a>
-				</li>
 				<li class="dropdown pull-right">
-					 <a href="#" data-toggle="dropdown" class="dropdown-toggle">Dropdown<strong class="caret"></strong></a>
+					 <a href="#" data-toggle="dropdown" class="dropdown-toggle">Extras List<strong class="caret"></strong></a>
 					<ul class="dropdown-menu">
 						<li>
 							<a href="https://github.com/Coder-ACJHP/ResizeAndCropOnline">Source code</a>
@@ -108,11 +124,6 @@
 				</h1>
 			</div> 
 		</div>
-		<c:if test="${not empty error}">
-			<div class="alert alert-danger">
-  				<strong>Warning!</strong> ${error}.
-			</div>
-		</c:if>
 		<form:form action="cropImage" modelAttribute="userDoc" method="POST" enctype="multipart/form-data">
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2">
@@ -152,6 +163,7 @@
 		</div>	
 	</div>
 </div>
+	</div>  
 </body>
 </html>
                     
